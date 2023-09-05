@@ -29,6 +29,5 @@ public class Main {
                 +"\nLast name:  "+ myClient.getLastName()
                 +"\nAwards:  "+ myClient.getCin()
         );
-
     }
 }
