@@ -4,11 +4,10 @@ import java.util.Date;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-
         Date currentDate = new Date();
         System.out.println(currentDate);
         System.out.println("------------------------");
-        Book myObj = new Book(1,"bookA","ok",currentDate,40,"SA123",true);
+        /*Book myObj = new Book(1,"bookA","ok",currentDate,40,"SA123",true);
         Author myAuthor = new Author(1,"victore","hego","Oscar");
         Client myClient = new Client(1,"saad","moumou","ha234565");
         System.out.println(myObj.getId()
@@ -28,6 +27,6 @@ public class Main {
                 +"\nFirst name:  "+ myClient.getFirstName()
                 +"\nLast name:  "+ myClient.getLastName()
                 +"\nAwards:  "+ myClient.getCin()
-        );
+        );*/
     }
 }

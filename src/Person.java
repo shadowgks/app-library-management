@@ -1,10 +1,10 @@
 public class Person {
-    protected int id;
+    private int id;
     private String firstName;
     private String lastName;
 
-    public Person(int id, String firstName, String lastName) {
-        this.id = id;
+    public Person(){};
+    public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -28,4 +28,5 @@ public class Person {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 }
