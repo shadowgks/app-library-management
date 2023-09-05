@@ -41,4 +41,15 @@ public class Book {
         return isbn;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", datePublication=" + datePublication +
+                ", quantity=" + quantity +
+                ", isbn='" + isbn + '\'' +
+                '}';
+    }
 }
