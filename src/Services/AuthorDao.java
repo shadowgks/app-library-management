@@ -17,7 +17,7 @@ public class AuthorDao {
         this.con = connection;
     }
 
-    public List<Author> readAll() throws SQLException {
+    public List<Author> readAllAuthor() throws SQLException {
         List<Author> auths = new ArrayList<>();
         String query = "SELECT * FROM author";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
@@ -37,7 +37,7 @@ public class AuthorDao {
         }
     }
 
-    public Author readByID(int id) throws SQLException {
+    public Author readByIDAuthor(int id) throws SQLException {
         String query = "SELECT * FROM author WHERE id = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             try(ResultSet resultSet = preparedStatement.executeQuery()) {

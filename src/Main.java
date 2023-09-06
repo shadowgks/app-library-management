@@ -1,6 +1,7 @@
 import DB.DBConnection;
 import Domain.Entitys.Author;
 import Services.AuthorDao;
+import Services.BookDao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +19,9 @@ public class Main {
         }
 
         AuthorDao AD = new AuthorDao(con);
+        BookDao bookdao = new BookDao(con);
         AD.insertAuthor();
+        bookdao.insertBook();
         System.out.println("------------------------");
         /*Domain.Entitys.Book myObj = new Domain.Entitys.Book(1,"bookA","ok",currentDate,40,"SA123",true);
         Domain.Entitys.Author myAuthor = new Domain.Entitys.Author(1,"victore","hego","Oscar");
