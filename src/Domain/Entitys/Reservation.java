@@ -1,3 +1,7 @@
+package Domain.Entitys;
+
+import Domain.Enums.Status;
+
 import java.util.Date;
 
 public class Reservation {

@@ -1,3 +1,5 @@
+package Domain.Entitys;
+
 public class Client{
     private int id;
     private String firstName;
