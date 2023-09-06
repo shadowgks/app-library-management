@@ -1,5 +1,4 @@
-drop DATABASE library_app;
-CREATE DATABASE library_app;
+drop database if exists library_app;
 use library_app;
 
 Create Table Author(

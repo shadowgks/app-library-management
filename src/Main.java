@@ -1,9 +1,18 @@
+import dao.DBConnection;
+
+import java.sql.Connection;
 import java.util.Date;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
+        Connection con = DBConnection.getConnection();
+        if(con == null){
+            System.out.println("not working");
+        }else{
+            System.out.println("working");
+        }
         Date currentDate = new Date();
         System.out.println(currentDate);
         System.out.println("------------------------");
