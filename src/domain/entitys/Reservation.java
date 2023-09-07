@@ -1,6 +1,6 @@
-package Domain.Entitys;
+package domain.entitys;
 
-import Domain.Enums.Status;
+import domain.enums.Status;
 
 import java.util.Date;
 
@@ -15,6 +15,23 @@ public class Reservation {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.enumStatus = enumStatus;
+    }
+
+    //setter
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setEnumStatus(Status enumStatus) {
         this.enumStatus = enumStatus;
     }
 

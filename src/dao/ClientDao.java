@@ -1,4 +1,4 @@
-package Services;
+package dao;
 
 public class ClientDao {
 }

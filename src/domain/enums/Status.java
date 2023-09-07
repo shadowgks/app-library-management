@@ -1,4 +1,4 @@
-package Domain.Enums;
+package domain.enums;
 
 public enum Status {
     Lost,

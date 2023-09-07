@@ -1,11 +1,9 @@
-import DB.DBConnection;
-import Domain.Entitys.Author;
-import Services.AuthorDao;
-import Services.BookDao;
+import service.AuthorService;
+import service.BookService;
+import db.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -18,10 +16,14 @@ public class Main {
             System.out.println("working");
         }
 
-        AuthorDao AD = new AuthorDao(con);
-        BookDao bookdao = new BookDao(con);
-        AD.insertAuthor();
-        bookdao.insertBook();
+        AuthorService AuthorS = new AuthorService(con);
+        BookService BookS = new BookService(con);
+
+
+//        System.out.println(AuthorC.readAllAuthor());
+//        System.out.println(BookC.readAllBook());
+        System.out.println(BookS.searchBook());
+
         System.out.println("------------------------");
         /*Domain.Entitys.Book myObj = new Domain.Entitys.Book(1,"bookA","ok",currentDate,40,"SA123",true);
         Domain.Entitys.Author myAuthor = new Domain.Entitys.Author(1,"victore","hego","Oscar");

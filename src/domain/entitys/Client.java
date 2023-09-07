@@ -1,4 +1,4 @@
-package Domain.Entitys;
+package domain.entitys;
 
 public class Client{
     private int id;

@@ -1,6 +1,4 @@
-package Domain.Entitys;
-
-import java.util.Scanner;
+package domain.entitys;
 
 public class Author{
     private int id;
@@ -53,12 +51,10 @@ public class Author{
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", Awards='" + Awards + '\'' +
-                '}';
+        return "Author: " + getId() + "\n" +
+                "firstName= " + getFirstName() + '\n' +
+                "lastName= " + getLastName() + '\n' +
+                "Awards= " + getAwards() + '\n';
     }
 }
 

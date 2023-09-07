@@ -1,7 +1,6 @@
-package Services;
-import DB.DBConnection;
-import Domain.Entitys.Author;
-import Domain.Entitys.Book;
+package dao;
+import domain.entitys.Author;
+import domain.entitys.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,11 +9,11 @@ import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 public class BookDao {
     private Connection con;
 
+    public BookDao(){};
     public BookDao(Connection connection) {
         this.con = connection;
     }
@@ -27,16 +26,13 @@ public class BookDao {
                 while(resultSet.next()){
                     //book
                     Book book = new Book();
-                    book.setId(resultSet.getInt("id"));
                     book.setTitle(resultSet.getString("title"));
                     book.setDescription(resultSet.getString("description"));
                     book.setDatePublication(resultSet.getDate("date_publication"));
                     book.setQuantity(resultSet.getInt("quantity"));
                     book.setIsbn(resultSet.getString("isbn"));
-
                     //author
                     Author author = new Author();
-                    author.setId(resultSet.getInt("id"));
                     author.setFirstName(resultSet.getString("first_name"));
                     author.setLastName(resultSet.getString("last_name"));
                     author.setAwards(resultSet.getString("awards"));
@@ -50,30 +46,50 @@ public class BookDao {
         }
     }
 
-    public Book readByIDBook(int id) throws SQLException {
-        String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE b.id = ?";
+    public Book readByIDBook(int isbn) throws SQLException {
+        String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE b.isbn = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                preparedStatement.setInt(6, isbn);
                 if (resultSet.next()) {
                     //book
                     Book book = new Book();
-                    book.setId(resultSet.getInt("id"));
                     book.setTitle(resultSet.getString("title"));
                     book.setDescription(resultSet.getString("description"));
                     book.setDatePublication(resultSet.getDate("date_publication"));
                     book.setQuantity(resultSet.getInt("quantity"));
                     book.setIsbn(resultSet.getString("isbn"));
-                    //B author
+                    //author
                     Author author = new Author();
                     author.setId(resultSet.getInt("id"));
                     author.setFirstName(resultSet.getString("first_name"));
                     author.setLastName(resultSet.getString("last_name"));
                     author.setAwards(resultSet.getString("awards"));
-                    //B author
-                    book.setAuthor(author);
 
+                    book.setAuthor(author);
                     return book;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Book> SearchBook() throws SQLException {
+        List<Book> books = new ArrayList<>();
+        String query = "SELECT * FROM book WHERE title LIKE ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                preparedStatement.setString(2, "n");
+                while (resultSet.next()) {
+                    Book book = new Book();
+                    book.setTitle(resultSet.getString("title"));
+                    book.setDescription(resultSet.getString("description"));
+                    book.setDatePublication(resultSet.getDate("date_publication"));
+                    book.setQuantity(resultSet.getInt("quantity"));
+                    book.setIsbn(resultSet.getString("isbn"));
+
+                    books.add(book);
+                    return books;
                 }
             }
         }
@@ -89,7 +105,6 @@ public class BookDao {
             preparedStatement.setInt(4, 50);
             preparedStatement.setString(5, "isbn1");
             preparedStatement.setInt(6, 6);
-
 
             preparedStatement.executeUpdate();
         }

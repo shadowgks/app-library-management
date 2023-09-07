@@ -1,4 +1,4 @@
-package Domain.Entitys;
+package domain.entitys;
 
 import java.util.Date;
 
@@ -83,13 +83,12 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", datePublication=" + datePublication +
-                ", quantity=" + quantity +
-                ", isbn='" + isbn + '\'' +
-                '}';
+        return "\nBook: " + getId() +
+                "\ntitle= " + getTitle() +
+                "\ndescription= " + getDescription() +
+                "\ndatePublication= " + getDatePublication() +
+                "\nquantity= " + getQuantity() +
+                "\nisbn= " + getIsbn() +
+                "\nAuthors= " + getAuthor();
     }
 }

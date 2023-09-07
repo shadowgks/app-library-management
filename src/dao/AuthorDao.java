@@ -1,7 +1,7 @@
-package Services;
+package dao;
 
-import Domain.Entitys.Author;
-import Domain.Entitys.Book;
+import domain.entitys.Author;
+import domain.entitys.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,22 +18,21 @@ public class AuthorDao {
     }
 
     public List<Author> readAllAuthor() throws SQLException {
-        List<Author> auths = new ArrayList<>();
+        List<Author> authors = new ArrayList<>();
         String query = "SELECT * FROM author";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while(resultSet.next()){
-                    Author auth = new Author();
-                    auth.setId(resultSet.getInt("id"));
-                    auth.setFirstName(resultSet.getString("first_name"));
-                    auth.setLastName(resultSet.getString("last_name"));
-                    auth.setAwards(resultSet.getString("awards"));
+                    Author author = new Author();
+                    author.setFirstName(resultSet.getString("first_name"));
+                    author.setLastName(resultSet.getString("last_name"));
+                    author.setAwards(resultSet.getString("awards"));
 
                     //set data in List
-                    auths.add(auth);
+                    authors.add(author);
                 }
             }
-            return auths;
+            return authors;
         }
     }
 
@@ -43,13 +42,12 @@ public class AuthorDao {
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 preparedStatement.setInt(1, id);
                 if (resultSet.next()) {
-                    Author auth = new Author();
-                    auth.setId(resultSet.getInt("id"));
-                    auth.setFirstName(resultSet.getString("first_name"));
-                    auth.setLastName(resultSet.getString("last_name"));
-                    auth.setAwards(resultSet.getString("awards"));
+                    Author author = new Author();
+                    author.setFirstName(resultSet.getString("first_name"));
+                    author.setLastName(resultSet.getString("last_name"));
+                    author.setAwards(resultSet.getString("awards"));
 
-                    return auth;
+                    return author;
                 }
             }
         }
@@ -59,9 +57,9 @@ public class AuthorDao {
     public void insertAuthor() throws SQLException {
         String query = "INSERT INTO author (first_name, last_name, awards) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, "name1");
-            preparedStatement.setString(2, "last1");
-            preparedStatement.setString(3, "award1");
+            preparedStatement.setString(1, "name2");
+            preparedStatement.setString(2, "last2");
+            preparedStatement.setString(3, "award2");
 
             preparedStatement.executeUpdate();
         }
@@ -85,6 +83,8 @@ public class AuthorDao {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            e.getErrorCode();
         }
     }
 
