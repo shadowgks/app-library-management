@@ -23,6 +23,7 @@ public class Main {
 //        System.out.println(AuthorC.readAllAuthor());
 //        System.out.println(BookC.readAllBook());
         System.out.println(BookS.searchBook());
+//        System.out.println(BookS.readByIsbnBook());
 
         System.out.println("------------------------");
         /*Domain.Entitys.Book myObj = new Domain.Entitys.Book(1,"bookA","ok",currentDate,40,"SA123",true);

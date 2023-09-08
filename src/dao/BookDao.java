@@ -46,11 +46,11 @@ public class BookDao {
         }
     }
 
-    public Book readByIDBook(int isbn) throws SQLException {
+    public Book readByIsbnBook(String isbn) throws SQLException {
         String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE b.isbn = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, isbn);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                preparedStatement.setInt(6, isbn);
                 if (resultSet.next()) {
                     //book
                     Book book = new Book();
@@ -76,12 +76,12 @@ public class BookDao {
 
     public List<Book> SearchBook() throws SQLException {
         List<Book> books = new ArrayList<>();
-        String query = "SELECT * FROM book WHERE title LIKE ?";
+        Book book = new Book();
+        String query = "SELECT * FROM book WHERE title LIKE CONCAT('%', ?, '%')";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, book.getTitle());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                preparedStatement.setString(2, "n");
                 while (resultSet.next()) {
-                    Book book = new Book();
                     book.setTitle(resultSet.getString("title"));
                     book.setDescription(resultSet.getString("description"));
                     book.setDatePublication(resultSet.getDate("date_publication"));
@@ -89,11 +89,10 @@ public class BookDao {
                     book.setIsbn(resultSet.getString("isbn"));
 
                     books.add(book);
-                    return books;
                 }
             }
+            return books;
         }
-        return null;
     }
 
     public void insertBook() throws SQLException {

@@ -24,6 +24,15 @@ public class BookService {
         }
     }
 
+    public Book readByIsbnBook(){
+        try {
+            return bookDeo.readByIsbnBook("978-0-9767736-6-5");
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Book> searchBook(){
         try{
             return bookDeo.SearchBook();

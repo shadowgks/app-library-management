@@ -1,7 +1,6 @@
 package dao;
 
 import domain.entitys.Author;
-import domain.entitys.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
