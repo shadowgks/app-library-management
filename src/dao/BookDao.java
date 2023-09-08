@@ -20,7 +20,7 @@ public class BookDao {
 
     public List<Book> readAllBook() throws SQLException {
         List<Book> books = new ArrayList<>();
-        String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id";
+        String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE quantity > 0";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while(resultSet.next()){
@@ -46,14 +46,14 @@ public class BookDao {
         }
     }
 
-    public Book readByIsbnBook(String isbn) throws SQLException {
+    public Book readByIsbnBook() throws SQLException {
         String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE b.isbn = ?";
+        Book book = new Book();
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, isbn);
+            preparedStatement.setString(1, book.getIsbn());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     //book
-                    Book book = new Book();
                     book.setTitle(resultSet.getString("title"));
                     book.setDescription(resultSet.getString("description"));
                     book.setDatePublication(resultSet.getDate("date_publication"));

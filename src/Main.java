@@ -1,6 +1,7 @@
 import service.AuthorService;
 import service.BookService;
-import db.DBConnection;
+import service.ReservationService;
+import utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,14 +17,17 @@ public class Main {
             System.out.println("working");
         }
 
-        AuthorService AuthorS = new AuthorService(con);
-        BookService BookS = new BookService(con);
+        AuthorService authorS = new AuthorService(con);
+        BookService bookS = new BookService(con);
+        ReservationService resS = new ReservationService(con);
+//        System.out.println(authorS.readAllAuthor());
+//        authorS.insertAuthors();
+        resS.insertReservation();
+
 
 
 //        System.out.println(AuthorC.readAllAuthor());
 //        System.out.println(BookC.readAllBook());
-        System.out.println(BookS.searchBook());
-//        System.out.println(BookS.readByIsbnBook());
 
         System.out.println("------------------------");
         /*Domain.Entitys.Book myObj = new Domain.Entitys.Book(1,"bookA","ok",currentDate,40,"SA123",true);

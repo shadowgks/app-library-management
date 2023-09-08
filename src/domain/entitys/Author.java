@@ -4,15 +4,14 @@ public class Author{
     private int id;
     private String firstName;
     private String lastName;
-    private String Awards;
+    private String awards;
 
     // Constructor
     public Author(){};
-    public Author(int id, String firstName, String lastName, String awards) {
-        this.id = id;
+    public Author(String firstName, String lastName, String awards) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.Awards = awards;
+        this.awards = awards;
     }
 
     //Setter
@@ -29,7 +28,7 @@ public class Author{
     }
 
     public void setAwards(String awards) {
-        Awards = awards;
+       this.awards = awards;
     }
 
     //getter
@@ -46,15 +45,15 @@ public class Author{
     }
 
     public String getAwards() {
-        return Awards;
+        return awards;
     }
 
     @Override
     public String toString() {
-        return "Author: " + getId() + "\n" +
-                "firstName= " + getFirstName() + '\n' +
-                "lastName= " + getLastName() + '\n' +
-                "Awards= " + getAwards() + '\n';
+        return "Author: " + id + "\n" +
+                "firstName= " + firstName + '\n' +
+                "lastName= " + lastName + '\n' +
+                "Awards= " + awards + '\n';
     }
 }
 

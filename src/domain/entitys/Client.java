@@ -8,6 +8,7 @@ public class Client{
 
 
     //Constructor
+    public Client(){};
     public Client(int id, String firstName, String lastName, String cin) {
         this.id = id;
         this.firstName = firstName;
@@ -30,6 +31,22 @@ public class Client{
 
     public String getCin() {
         return cin;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setCin(String cin) {
+        this.cin = cin;
     }
 
     @Override

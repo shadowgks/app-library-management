@@ -12,7 +12,8 @@ import java.util.List;
 public class AuthorDao {
     private Connection con;
 
-    public AuthorDao(Connection connection) {
+    public AuthorDao(Connection connection)
+    {
         this.con = connection;
     }
 
@@ -53,24 +54,24 @@ public class AuthorDao {
         return null;
     }
 
-    public void insertAuthor() throws SQLException {
+    public void insertAuthor(Author author) throws SQLException {
         String query = "INSERT INTO author (first_name, last_name, awards) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, "name2");
-            preparedStatement.setString(2, "last2");
-            preparedStatement.setString(3, "award2");
+            preparedStatement.setString(1, author.getFirstName());
+            preparedStatement.setString(2, author.getLastName());
+            preparedStatement.setString(3, author.getAwards());
 
             preparedStatement.executeUpdate();
         }
     }
 
-    public void updateAuthor(Author auth) throws SQLException {
+    public void updateAuthor(Author author) throws SQLException {
         String query = "UPDATE author SET first_name = ?, last_name = ?, awards = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, auth.getFirstName());
-            preparedStatement.setString(2, auth.getLastName());
-            preparedStatement.setString(3, auth.getAwards());
-            preparedStatement.setInt(4, auth.getId());
+            preparedStatement.setString(1, author.getFirstName());
+            preparedStatement.setString(2, author.getLastName());
+            preparedStatement.setString(3, author.getAwards());
+            preparedStatement.setInt(4, author.getId());
 
             preparedStatement.executeUpdate();
         }

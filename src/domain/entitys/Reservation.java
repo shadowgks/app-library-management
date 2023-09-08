@@ -2,20 +2,21 @@ package domain.entitys;
 
 import domain.enums.Status;
 
-import java.util.Date;
-
 public class Reservation {
     private int id;
-    private Date startDate;
-    private Date endDate;
+    private int idRandom;
+    private String startDate;
+    private int duration;
     private Status enumStatus;
+    private Book book;
+    private Client client;
 
     //Constructor
-    public Reservation(int id, Date startDate, Date endDate, Status enumStatus) {
-        this.id = id;
+    public Reservation(){}
+    public Reservation(int idRandom, String startDate, int duration) {
+        this.idRandom = idRandom;
         this.startDate = startDate;
-        this.endDate = endDate;
-        this.enumStatus = enumStatus;
+        this.duration = duration;
     }
 
     //setter
@@ -23,16 +24,28 @@ public class Reservation {
         this.id = id;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setIdRandom(int idRandom) {
+        this.idRandom = idRandom;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
     public void setEnumStatus(Status enumStatus) {
         this.enumStatus = enumStatus;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     //getter
@@ -40,25 +53,40 @@ public class Reservation {
         return id;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public int getIdRandom() {
+        return idRandom;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String getStartDate() {
+        return startDate;
     }
 
     public Status getEnumStatus() {
         return enumStatus;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", idRandom=" + idRandom +
+                ", startDate='" + startDate + '\'' +
+                ", duration=" + duration +
                 ", enumStatus=" + enumStatus +
+                ", book=" + book +
+                ", client=" + client +
                 '}';
     }
 }

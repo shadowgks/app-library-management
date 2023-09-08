@@ -26,7 +26,7 @@ public class BookService {
 
     public Book readByIsbnBook(){
         try {
-            return bookDeo.readByIsbnBook("978-0-9767736-6-5");
+            return bookDeo.readByIsbnBook();
         }catch (SQLException e){
             e.printStackTrace();
             return null;

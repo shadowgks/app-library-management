@@ -1,4 +1,4 @@
-package db;
+package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,16 +10,13 @@ public class DBConnection {
     private static final String PASSWORD = "";
 
     private static Connection connection;
+
     public static Connection getConnection() {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch(SQLException se) {
+        } catch (SQLException se) {
             se.printStackTrace();
         }
         return connection;
     }
-
-
-
-
 }
