@@ -2,12 +2,15 @@ package service;
 
 import dao.ReservationDao;
 import domain.entitys.Reservation;
+import domain.enums.Status;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.time.LocalDate;
 
 public class ReservationService {
     private ReservationDao reservationdao;
@@ -18,32 +21,48 @@ public class ReservationService {
     }
 
     public void insertReservation() throws SQLException {
-        int generateIDR = generateRandomID();
-        String isbn, cin, date_start;
-        String duration;
-        boolean checkBeforInsertReservation;
+            int generateIDR = generateRandomID();
+            String isbn, cin;
+            int duration = 0;
+            String regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
+            boolean checkBeforeInsertReservation;
+            // Get the current LocalDate
+            LocalDate currentDate = LocalDate.now();
 
-        do {
-            System.out.println("Give me your cin: ");
-            cin = input.nextLine();
-        }while(!Pattern.matches("\\S+", cin));
-        do {
-            System.out.println("Give me ISBN book you want: ");
-            isbn = input.nextLine();
-        }while(!Pattern.matches("\\S+", isbn));
+            do {
+                System.out.println("Give me your cin: ");
+                cin = input.nextLine();
+            }while(!Pattern.matches("\\S+", cin));
+            do {
+                System.out.println("Give me ISBN book you want: ");
+                System.out.println("Ex: 000-0-00-000000-0");
+                isbn = input.nextLine();
+            }while(!Pattern.matches(regexISBN, isbn));
+            do {
+                System.out.println("Give me duration returned the book: ");
+                if (input.hasNextInt()) {
+                    duration = input.nextInt();
+                    if (duration <= 0) {
+                        System.out.println("Duration must be a positive integer.");
+                    }
+                } else {
+                    System.out.println("Please enter a number.");
+                    input.next();
+                    duration = 0; //Reset duration to an invalid value
+                }
+            }while(duration <= 0);
 
-
-        Reservation reservation = new Reservation(generateIDR, "2000-02-02", 4);
-        checkBeforInsertReservation = reservationdao.checkClientAndBookIfExist(isbn, cin);
-        if(checkBeforInsertReservation){
-            System.out.println("This is client reserved this book before");
-        }else{
-            reservationdao.getBookIsbn(isbn, reservation);
-            reservationdao.getClientCin(cin, reservation);
-            reservationdao.ReservationClient(reservation);
-            reservationdao.decrementBookQuantity(reservation);
-            System.out.println("Reserved Successfully");
-        }
+            Reservation reservation = new Reservation(generateIDR, java.sql.Date.valueOf(currentDate), duration, Status.Borrowed);
+            checkBeforeInsertReservation = reservationdao.checkClientAndBookIfExist(isbn, cin);
+            if(checkBeforeInsertReservation){
+                System.out.println("This is client still reserved this book borrowed!");
+            }else{
+                reservationdao.getBookIsbn(reservation, isbn);
+                reservationdao.getClientCin(reservation, cin);
+                reservationdao.ReservationClient(reservation);
+                reservationdao.decrementBookQuantity(reservation);
+                System.out.println("Reserved Successfully :)");
+            }
     }
 
     private static int generateRandomID() {

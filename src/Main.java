@@ -22,7 +22,8 @@ public class Main {
         ReservationService resS = new ReservationService(con);
 //        System.out.println(authorS.readAllAuthor());
 //        authorS.insertAuthors();
-        resS.insertReservation();
+//        resS.insertReservation();
+        bookS.insertBook();
 
 
 
@@ -34,7 +35,7 @@ public class Main {
         Domain.Entitys.Author myAuthor = new Domain.Entitys.Author(1,"victore","hego","Oscar");
         Domain.Entitys.Client myClient = new Domain.Entitys.Client(1,"saad","moumou","ha234565");
         System.out.println(myObj.getId()
-                +"\nTitle: "+myObj.getTitle()
+                +"\nTitle: "+myObj.getTiha232456tle()
                 +"\nDescription: "+myObj.getDescription()
                 +"\nDatePublication: "+myObj.getDatePublication()
                 +"\nQuantity: "+myObj.getQuantity()

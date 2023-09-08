@@ -2,10 +2,12 @@ package domain.entitys;
 
 import domain.enums.Status;
 
+import java.util.Date;
+
 public class Reservation {
     private int id;
     private int idRandom;
-    private String startDate;
+    private Date startDate;
     private int duration;
     private Status enumStatus;
     private Book book;
@@ -13,10 +15,13 @@ public class Reservation {
 
     //Constructor
     public Reservation(){}
-    public Reservation(int idRandom, String startDate, int duration) {
+
+
+    public Reservation(int idRandom, Date startDate, int duration, Status enumStatus) {
         this.idRandom = idRandom;
         this.startDate = startDate;
         this.duration = duration;
+        this.enumStatus = enumStatus;
     }
 
     //setter
@@ -28,7 +33,7 @@ public class Reservation {
         this.idRandom = idRandom;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
@@ -57,7 +62,7 @@ public class Reservation {
         return idRandom;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 

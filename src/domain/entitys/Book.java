@@ -12,14 +12,12 @@ public class Book {
     private Author author;
 
     public Book(){}
-    public Book(int id, String title, String description, Date datePublication, int quantity, String isbn, Author author) {
-        this.id = id;
+    public Book(String title, String description, Date datePublication, int quantity, String isbn) {
         this.title = title;
         this.description = description;
         this.datePublication = datePublication;
         this.quantity = quantity;
         this.isbn = isbn;
-        this.author = author;
     }
 
     //Getter

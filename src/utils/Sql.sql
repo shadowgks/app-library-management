@@ -18,7 +18,7 @@ Create Table Client
     id         int PRIMARY KEY AUTO_INCREMENT,
     first_name varchar(255),
     last_name  varchar(255),
-    cin        varchar(30)
+    cin        varchar(30) unique
 );
 
 Create Table Book
@@ -36,7 +36,7 @@ Create Table Book
 Create Table Reservation
 (
     id         int PRIMARY KEY AUTO_INCREMENT,
-    id_random  int,
+    id_random  int unique,
     start_date DATE,
     duration   int,
     statut     varchar(255),

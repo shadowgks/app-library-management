@@ -4,6 +4,7 @@ import domain.entitys.Author;
 import domain.entitys.Book;
 import domain.entitys.Client;
 import domain.entitys.Reservation;
+import domain.enums.Status;
 
 import java.sql.*;
 import java.util.Random;
@@ -18,9 +19,9 @@ public class ReservationDao {
 
             try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
                 preparedStatement.setInt(1, res.getIdRandom());
-                preparedStatement.setDate(2, java.sql.Date.valueOf(res.getStartDate()) );
+                preparedStatement.setDate(2, (Date) res.getStartDate());
                 preparedStatement.setInt(3, res.getDuration());
-                preparedStatement.setString(4, "Borrowed");
+                preparedStatement.setString(4, res.getEnumStatus().toString());
                 preparedStatement.setInt(5, res.getBook().getId());
                 preparedStatement.setInt(6, res.getClient().getId());
 
@@ -31,10 +32,11 @@ public class ReservationDao {
     public boolean checkClientAndBookIfExist(String isbn, String cin) throws SQLException{
         String query = "SELECT * FROM reservation r JOIN client c JOIN book b\n" +
                 "ON r.bookID = b.id AND r.clientID = c.id \n" +
-                "WHERE b.isbn = ? AND c.cin = ?";
+                "WHERE b.isbn = ? AND c.cin = ? AND statut = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, isbn);
             preparedStatement.setString(2, cin);
+            preparedStatement.setString(3, String.valueOf(Status.Borrowed));
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return true;
@@ -58,7 +60,7 @@ public class ReservationDao {
         }
     }
 
-    public void getBookIsbn(String isbn, Reservation res) throws SQLException{
+    public void getBookIsbn(Reservation res, String isbn) throws SQLException{
         String query = "SELECT * FROM book WHERE isbn = ? AND quantity > 0";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, isbn);
@@ -73,7 +75,7 @@ public class ReservationDao {
         }
     }
 
-    public void getClientCin(String cin, Reservation res) throws SQLException{
+    public void getClientCin(Reservation res, String cin) throws SQLException{
         String query = "SELECT * FROM client WHERE cin = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, cin);

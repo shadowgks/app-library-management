@@ -2,10 +2,7 @@ package dao;
 import domain.entitys.Author;
 import domain.entitys.Book;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,15 +92,15 @@ public class BookDao {
         }
     }
 
-    public void insertBook() throws SQLException {
+    public void insertBook(Book book) throws SQLException {
         String query = "INSERT INTO book (title, description, date_publication, quantity, isbn, authorID) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, "title1");
-            preparedStatement.setString(2, "description1");
-            preparedStatement.setDate(3, java.sql.Date.valueOf("2013-09-04"));
-            preparedStatement.setInt(4, 50);
-            preparedStatement.setString(5, "isbn1");
-            preparedStatement.setInt(6, 6);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getDescription());
+            preparedStatement.setDate(3, (Date) book.getDatePublication());
+            preparedStatement.setInt(4, book.getQuantity());
+            preparedStatement.setString(5, book.getIsbn());
+            preparedStatement.setInt(6, book.getAuthor().getId());
 
             preparedStatement.executeUpdate();
         }
@@ -131,6 +128,23 @@ public class BookDao {
 
             preparedStatement.executeUpdate();
         }
+    }
+
+    public boolean checkAuthor(Book book, String first_name, String last_name) throws SQLException {
+        String query = "SELECT id FROM author WHERE first_name = ? AND last_name = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, first_name);
+            preparedStatement.setString(2, last_name);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Author author = new Author();
+                    author.setId(resultSet.getInt("id"));
+                    book.setAuthor(author);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
