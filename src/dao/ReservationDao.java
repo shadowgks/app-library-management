@@ -89,4 +89,34 @@ public class ReservationDao {
         }
     }
 
+    public String statisticBookBorrowed() throws SQLException{
+        String query = "SELECT COUNT(*) AS 'statistics_book_borrowed' FROM reservation \n" +
+                "WHERE statut = ?";
+        try(PreparedStatement preparedStatement = con.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(Status.Borrowed));
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                if(resultSet.next()){
+                    String statistics_book_borrowed = resultSet.getString("statistics_book_borrowed");
+                    return statistics_book_borrowed;
+                }
+            }
+        }
+        return null;
+    }
+
+    public String statisticBookLost() throws SQLException{
+        String query = "SELECT COUNT(*) AS 'statistics_book_lost' FROM reservation \n" +
+                "WHERE statut = ?";
+        try(PreparedStatement preparedStatement = con.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(Status.Lost));
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                if(resultSet.next()){
+                    String statistics_book_lost = resultSet.getString("statistics_book_lost");
+                    return statistics_book_lost;
+                }
+            }
+        }
+        return null;
+    }
+
 }

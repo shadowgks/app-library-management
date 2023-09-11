@@ -121,10 +121,10 @@ public class BookDao {
         }
     }
 
-    public void deleteBook(int id) throws SQLException {
-        String query = "DELETE FROM book WHERE id = ?";
+    public void deleteBook(int isbn) throws SQLException {
+        String query = "DELETE FROM book WHERE isbn = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, isbn);
 
             preparedStatement.executeUpdate();
         }
@@ -152,10 +152,12 @@ public class BookDao {
         try(PreparedStatement preparedStatement = con.prepareStatement(query)){
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 if(resultSet.next()){
-                    String statistics_book =
+                    String statistics_book = resultSet.getString("statistics_book");
+                    return statistics_book;
                 }
             }
         }
+        return null;
     }
 
 

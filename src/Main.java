@@ -23,7 +23,9 @@ public class Main {
 //        System.out.println(authorS.readAllAuthor());
 //        authorS.insertAuthors();
 //        resS.insertReservation();
-        bookS.insertBook();
+        bookS.statisticBook();
+        resS.statisticBookBorrowed();
+        resS.statisticBookLost();
 
 
 

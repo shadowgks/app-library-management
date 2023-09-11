@@ -69,4 +69,22 @@ public class ReservationService {
         Random random = new Random();
         return random.nextInt(1000000); // Change the range as needed
     }
+
+    public void statisticBookBorrowed() {
+        try{
+            String count_book_borrowed = reservationdao.statisticBookBorrowed();
+            System.out.println("Total Books Borrowed: "+count_book_borrowed);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void statisticBookLost() {
+        try{
+            String count_book_lost = reservationdao.statisticBookLost();
+            System.out.println("Total Books Lost: "+count_book_lost);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

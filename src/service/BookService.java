@@ -111,4 +111,13 @@ public class BookService {
             return null;
         }
     }
+
+    public void statisticBook() {
+        try{
+            String count_book = bookDeo.statisticBook();
+            System.out.println("Total Books: "+count_book);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
