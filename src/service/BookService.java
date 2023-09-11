@@ -39,7 +39,8 @@ public class BookService {
 
     public void insertBook(){
         String title, description, date_publication, isbn, firstname_author, lastname_author;
-        boolean check_author;
+        boolean check_author = false;
+        String regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
         int quantity = 0;
 
         try {
@@ -59,7 +60,7 @@ public class BookService {
                 System.out.println("Entre the ISBN: ");
                 System.out.println("Ex: 000-0-00-000000-0");
                 isbn = input.nextLine();
-            } while (!Pattern.matches("\\S+", isbn));
+            } while (!Pattern.matches(regexISBN, isbn));
             do {
                 System.out.println("Enter quantity of the book: ");
                 if (input.hasNextInt()) {
@@ -75,8 +76,7 @@ public class BookService {
             } while (quantity <= 0);
 
             //author
-
-            do {
+            while(!check_author){
                 do {
                     System.out.println("Entre first name author: ");
                     firstname_author = input.nextLine();
@@ -93,11 +93,11 @@ public class BookService {
                     bookDeo.checkAuthor(book, firstname_author, lastname_author);
                     bookDeo.insertBook(book);
                 } else {
-                    System.out.println("Not found this author!!");
+                    System.out.println("This is author not found!!");
                 }
-            } while (!check_author);
+            }
 
-            System.out.println("Insert Book Successfully");
+            System.out.println("Added Book Successfully");
         }catch (SQLException e){
             e.printStackTrace();
         }

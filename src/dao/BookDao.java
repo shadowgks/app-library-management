@@ -136,7 +136,7 @@ public class BookDao {
             preparedStatement.setString(1, first_name);
             preparedStatement.setString(2, last_name);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     Author author = new Author();
                     author.setId(resultSet.getInt("id"));
                     book.setAuthor(author);
@@ -145,6 +145,17 @@ public class BookDao {
             }
         }
         return false;
+    }
+
+    public String statisticBook() throws SQLException{
+        String query = "SELECT COUNT(*) AS 'statistics_book' FROM book;";
+        try(PreparedStatement preparedStatement = con.prepareStatement(query)){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                if(resultSet.next()){
+                    String statistics_book =
+                }
+            }
+        }
     }
 
 

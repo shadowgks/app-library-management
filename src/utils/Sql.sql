@@ -1,9 +1,6 @@
-drop
-database if exists library_app;
-        create
-database library_app;
-        use
-library_app;
+drop database if exists library_app;
+create database library_app;
+use library_app;
 
 Create Table Author
 (
@@ -28,7 +25,7 @@ Create Table Book
     description      varchar(255),
     date_publication date,
     quantity         int,
-    isbn             varchar(255),
+    isbn             varchar(255) unique,
     authorID         INT,
     FOREIGN KEY (authorID) REFERENCES author (id)
 );
