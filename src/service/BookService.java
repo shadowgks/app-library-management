@@ -1,5 +1,6 @@
 package service;
 
+import dao.ReservationDao;
 import domain.entitys.Author;
 import domain.entitys.Book;
 import dao.BookDao;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 public class BookService {
 //    private BookDao bookDeo;
     private BookDao bookDeo;
+    private ReservationDao resDeo;
     Scanner input = new Scanner(System.in);
 
     public BookService(Connection con){
@@ -38,7 +40,7 @@ public class BookService {
                 isbn = input.nextLine();
                 get_book = bookDeo.readByIsbnBook(isbn);
                 if (get_book == null) {
-                    System.out.println("Failed to try again!");
+                    System.out.println("This book does not exist try again!");
                 }
             } while (!Pattern.matches(regexISBN, isbn) || get_book == null);
 
@@ -59,13 +61,14 @@ public class BookService {
             do {
                 System.out.println("Entre the title: ");
                 title = input.nextLine();
-            } while (!Pattern.matches("\\S+", title));
+            } while (!Pattern.matches("\\S.*", title));
             do {
                 System.out.println("Entre the description: ");
                 description = input.nextLine();
-            } while (!Pattern.matches("\\S+", description));
+            } while (!Pattern.matches("\\S.*", description));
             do {
                 System.out.println("Entre the date publication: ");
+                System.out.println("Ex: YYYY/MM/DD");
                 date_publication = input.nextLine();
             } while (!Pattern.matches("\\S+", date_publication));
             do {
@@ -109,7 +112,7 @@ public class BookService {
                 }
             }
 
-            System.out.println("A successfully added book :>");
+            System.out.println("A successfully added book :)");
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -220,20 +223,32 @@ public class BookService {
     }
 
     public void deleteBook() {
-        String isbn, regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";;
+        String isbn, regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
+        boolean check_book_if_borrowed, check_book = false;
         try{
-            Boolean checkbook;
             do {
                 System.out.println("Entre the ISBN: ");
                 System.out.println("Ex: 000-0-00-000000-0");
                 isbn = input.nextLine();
-                checkbook = bookDeo.deleteBook(isbn);
-                if (!checkbook) {
-                    System.out.println("This book does not exist try again!!!");
+
+                check_book_if_borrowed = bookDeo.checkBookIfBorrowed(isbn);
+
+                if(!check_book_if_borrowed){
+                    check_book = bookDeo.deleteBook(isbn);
+                    if (!check_book) {
+                        System.out.println("This book does not exist try again!!!");
+                    }else{
+                        System.out.println("A successfully deleted book");
+                    }
                 }else{
-                    System.out.println("A successfully deleted book");
+                    bookDeo.updateBookIfBorrowed(isbn);
+                    if (check_book) {
+                        System.out.println("This book does not exist try again!!!");
+                    }else{
+                        System.out.println("A successfully deleted book");
+                    }
                 }
-            } while (!Pattern.matches(regexISBN, isbn) && !checkbook);
+            } while (!Pattern.matches(regexISBN, isbn) && !check_book);
         }catch (SQLException e){
             e.printStackTrace();
         }

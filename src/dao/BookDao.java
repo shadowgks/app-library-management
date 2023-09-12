@@ -1,6 +1,7 @@
 package dao;
 import domain.entitys.Author;
 import domain.entitys.Book;
+import domain.enums.Status;
 
 import javax.swing.*;
 import java.sql.*;
@@ -158,6 +159,25 @@ public class BookDao {
         }
     }
 
+    public boolean checkBookIfBorrowed(String isbn) throws SQLException {
+        String query = "SELECT * FROM reservation r JOIN client c JOIN book b\n" +
+                "ON r.bookID = b.id AND r.clientID = c.id \n" +
+                "WHERE b.isbn = ? AND statut = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, isbn);
+            preparedStatement.setString(2, String.valueOf(Status.Borrowed));
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+
+    }
+
     public boolean checkAuthor(Book book, String first_name, String last_name) throws SQLException {
         String query = "SELECT id FROM author WHERE first_name = ? AND last_name = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
@@ -173,6 +193,20 @@ public class BookDao {
             }
         }
         return false;
+    }
+
+    public String updateBookIfBorrowed(String isbn) throws SQLException{
+        String query = "UPDATE book SET quantity= ? WHERE isbn = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, isbn);
+
+            if(preparedStatement.executeUpdate() > 0){
+                return "Updated quantity book successfully";
+            }else {
+                return "Something's not right!!";
+            }
+        }
     }
 
     public String statisticBook() throws SQLException{

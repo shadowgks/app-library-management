@@ -30,10 +30,12 @@ public class ReservationDao {
     }
 
     public String updateReservationToReturned(Reservation res) throws SQLException{
-        String query = "UPDATE reservation SET statut = ? WHERE id_random = ?";
+        String query = "UPDATE reservation SET statut = ?, duration = ? WHERE id_random = ?";
         try(PreparedStatement preparedStatement = con.prepareStatement(query)){
             preparedStatement.setString(1, String.valueOf(Status.Returned));
-            preparedStatement.setInt(2, res.getIdRandom());
+            preparedStatement.setInt(2, res.getDuration());
+            preparedStatement.setInt(3, res.getIdRandom());
+
 
             if(preparedStatement.executeUpdate() > 0){
                 return "The updated stone has been successfully returned :)";
@@ -63,9 +65,14 @@ public class ReservationDao {
     }
 
 
-    public void decrementBookQuantity(Reservation res) throws SQLException {
-        // Decrement the book quantity by 1
-        res.getBook().setQuantity(res.getBook().getQuantity() - 1);
+    public void BookQuantityDicOrInc(Reservation res, Status name) throws SQLException {
+        if(name == Status.Borrowed){
+            // Decrement the book quantity by 1
+            res.getBook().setQuantity(res.getBook().getQuantity() - 1);
+        }else if(name == Status.Returned){
+            // Increment the book quantity by 1
+            res.getBook().setQuantity(res.getBook().getQuantity() + 1);
+        }
 
         // Update the database with the new quantity
         String updateQuery = "UPDATE book SET quantity = ? WHERE id = ?";

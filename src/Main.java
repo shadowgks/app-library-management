@@ -38,16 +38,17 @@ public class Main {
             System.out.println("\n\n------------------------------------------");
 
             System.out.println("Choose an action:");
-            System.out.println("1. Create New Book");
-            System.out.println("2. Edit a Book");
-            System.out.println("3. Delete a Book");
-            System.out.println("4. Show All Books");
-            System.out.println("5. Search Book By Title");
-            System.out.println("6. Search Book By Author");
-            System.out.println("7. Reserve Book");
-            System.out.println("8. Return  Book");
-            System.out.println("9. Generate Statistics");
-            System.out.println("10. Exit");
+            System.out.println("1. Show All Books");
+            System.out.println("2. Show Book by ISBN");
+            System.out.println("3. Create New Book");
+            System.out.println("4. Edit a Book");
+            System.out.println("5. Delete a Book");
+            System.out.println("6. Search Book By Title");
+            System.out.println("7. Search Book By Author");
+            System.out.println("8. Reserve Book");
+            System.out.println("9. Return  Book");
+            System.out.println("10. Generate Statistics");
+            System.out.println("11. Exit");
             System.out.print("Enter your choice: ");
 
 
@@ -57,34 +58,37 @@ public class Main {
             System.out.println("\n\n------------------------\n");
             switch (choice) {
                 case 1:
-                    Book read_by_isbn_book = bookS.readByIsbnBook();
-                    System.out.println(read_by_isbn_book);
-                    break;
-                case 2:
-                    bookS.updateBook();
-                    break;
-                case 3:
-                    bookS.deleteBook();
-                    break;
-                case 4:
                     List show_books = bookS.readAllBook();
                     System.out.println(show_books);
                     break;
+                case 2:
+                    Book read_by_isbn_book = bookS.readByIsbnBook();
+                    System.out.println(read_by_isbn_book);
+                    break;
+                case 3:
+                    bookS.saveBook();
+                    break;
+                case 4:
+                    bookS.updateBook();
+                    break;
                 case 5:
+                    bookS.deleteBook();
+                    break;
+                case 6:
                     List get_all_book_by_title = bookS.searchBook("title");
                     System.out.println(get_all_book_by_title);
                     break;
-                case 6:
+                case 7:
                     List get_all_book_by_author = bookS.searchBook("author");
                     System.out.println(get_all_book_by_author);
                     break;
-                case 7:
+                case 8:
                     resS.saveReservation();
                     break;
-                case 8:
+                case 9:
                     resS.updateReservationToReturned();
                     break;
-                case 9:
+                case 10:
                     String count_books = bookS.statisticBook();
                     String count_books_borrowed = resS.statisticBookBorrowed();
                     String count_books_lost = resS.statisticBookLost();
@@ -93,7 +97,7 @@ public class Main {
                     System.out.println("Total Books Borrowed: "+count_books_borrowed);
                     System.out.println("Total Books Lost: "+count_books_lost);
                     break;
-                case 10:
+                case 11:
                     System.out.println("Exiting the program.");
                     isRunning = false;
                     break;

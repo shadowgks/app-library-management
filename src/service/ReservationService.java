@@ -61,7 +61,7 @@ public class ReservationService {
                     reservationdao.getBookIsbn(reservation, isbn);
                     reservationdao.getClientCin(reservation, cin);
                     reservationdao.ReservationClient(reservation);
-                    reservationdao.decrementBookQuantity(reservation);
+                    reservationdao.BookQuantityDicOrInc(reservation, Status.Borrowed);
                     System.out.println("Reserved Successfully :)");
                 }
             }catch (SQLException e){
@@ -88,9 +88,13 @@ public class ReservationService {
             Reservation reservation = new Reservation();
             check_client_book = reservationdao.checkClientAndBookIfExist(reservation, isbn, cin);
             if(check_client_book){
+                reservationdao.getBookIsbn(reservation, isbn);
+                reservationdao.getClientCin(reservation, cin);
+                reservationdao.BookQuantityDicOrInc(reservation, Status.Returned);
                 reservationdao.updateReservationToReturned(reservation);
+                System.out.println("Reserved Successfully :)");
             }else{
-
+                System.out.println("Sorry this book was returned before!!");
             }
         }catch (SQLException e){
             e.printStackTrace();
