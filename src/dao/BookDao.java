@@ -75,6 +75,7 @@ public class BookDao {
     public List<Book> searchBook(String name, String title, String firstname_author, String lastname_author) throws SQLException {
         List<Book> books = new ArrayList<>();
         String query = "";
+
         if(name == "title"){
             query = "SELECT * FROM \n" +
                     "book b JOIN author a \n" +

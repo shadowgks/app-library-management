@@ -29,16 +29,32 @@ public class ReservationDao {
             }
     }
 
-    public boolean checkClientAndBookIfExist(String isbn, String cin) throws SQLException{
+    public String updateReservationToReturned(Reservation res) throws SQLException{
+        String query = "UPDATE reservation SET statut = ? WHERE id_random = ?";
+        try(PreparedStatement preparedStatement = con.prepareStatement(query)){
+            preparedStatement.setString(1, String.valueOf(Status.Returned));
+            preparedStatement.setInt(2, res.getIdRandom());
+
+            if(preparedStatement.executeUpdate() > 0){
+                return "The updated stone has been successfully returned :)";
+            }else {
+                return "Something is wrong!!!";
+            }
+        }
+    }
+
+    public boolean checkClientAndBookIfExist(Reservation res, String isbn, String cin) throws SQLException{
         String query = "SELECT * FROM reservation r JOIN client c JOIN book b\n" +
                 "ON r.bookID = b.id AND r.clientID = c.id \n" +
                 "WHERE b.isbn = ? AND c.cin = ? AND statut = ?";
+
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, isbn);
             preparedStatement.setString(2, cin);
             preparedStatement.setString(3, String.valueOf(Status.Borrowed));
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    res.setIdRandom(resultSet.getInt("id_random"));
                     return true;
                 }
             }
@@ -90,13 +106,14 @@ public class ReservationDao {
     }
 
     public String statisticBookBorrowed() throws SQLException{
-        String query = "SELECT COUNT(*) AS 'statistics_book_borrowed' FROM reservation \n" +
+        String statistics_book_borrowed
+        , query = "SELECT COUNT(*) AS 'statistics_book_borrowed' FROM reservation \n" +
                 "WHERE statut = ?";
         try(PreparedStatement preparedStatement = con.prepareStatement(query)){
             preparedStatement.setString(1, String.valueOf(Status.Borrowed));
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 if(resultSet.next()){
-                    String statistics_book_borrowed = resultSet.getString("statistics_book_borrowed");
+                    statistics_book_borrowed = resultSet.getString("statistics_book_borrowed");
                     return statistics_book_borrowed;
                 }
             }

@@ -82,7 +82,7 @@ public class Main {
                     resS.saveReservation();
                     break;
                 case 8:
-
+                    resS.updateReservationToReturned();
                     break;
                 case 9:
                     String count_books = bookS.statisticBook();

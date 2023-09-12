@@ -31,11 +31,11 @@ public class ReservationService {
 
             try{
                 do {
-                    System.out.println("Give me your cin: ");
+                    System.out.println("Enter your cin: ");
                     cin = input.nextLine();
                 }while(!Pattern.matches("\\S+", cin));
                 do {
-                    System.out.println("Give me ISBN book you want: ");
+                    System.out.println("Enter ISBN book you want: ");
                     System.out.println("Ex: 000-0-00-000000-0");
                     isbn = input.nextLine();
                 }while(!Pattern.matches(regexISBN, isbn));
@@ -54,7 +54,7 @@ public class ReservationService {
                 }while(duration <= 0);
 
                 Reservation reservation = new Reservation(generateIDR, java.sql.Date.valueOf(currentDate), duration, Status.Borrowed);
-                checkBeforeInsertReservation = reservationdao.checkClientAndBookIfExist(isbn, cin);
+                checkBeforeInsertReservation = reservationdao.checkClientAndBookIfExist(reservation, isbn, cin);
                 if(checkBeforeInsertReservation){
                     System.out.println("This is client still reserved this book borrowed!");
                 }else{
@@ -67,6 +67,35 @@ public class ReservationService {
             }catch (SQLException e){
                 e.printStackTrace();
             }
+    }
+
+    public String updateReservationToReturned(){
+        String isbn, cin;
+        String regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
+        boolean check_client_book;
+
+        try {
+            do {
+                System.out.println("Enter your cin: ");
+                cin = input.nextLine();
+            }while(!Pattern.matches("\\S+", cin));
+            do {
+                System.out.println("Enter ISBN book you want: ");
+                System.out.println("Ex: 000-0-00-000000-0");
+                isbn = input.nextLine();
+            }while(!Pattern.matches(regexISBN, isbn));
+
+            Reservation reservation = new Reservation();
+            check_client_book = reservationdao.checkClientAndBookIfExist(reservation, isbn, cin);
+            if(check_client_book){
+                reservationdao.updateReservationToReturned(reservation);
+            }else{
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static int generateRandomID() {
