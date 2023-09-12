@@ -43,11 +43,11 @@ public class BookDao {
         }
     }
 
-    public Book readByIsbnBook() throws SQLException {
+    public Book readByIsbnBook(String isbn) throws SQLException {
         String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE b.isbn = ?";
         Book book = new Book();
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, book.getIsbn());
+            preparedStatement.setString(1, isbn);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     //book
@@ -58,7 +58,6 @@ public class BookDao {
                     book.setIsbn(resultSet.getString("isbn"));
                     //author
                     Author author = new Author();
-                    author.setId(resultSet.getInt("id"));
                     author.setFirstName(resultSet.getString("first_name"));
                     author.setLastName(resultSet.getString("last_name"));
                     author.setAwards(resultSet.getString("awards"));
@@ -71,7 +70,7 @@ public class BookDao {
         return null;
     }
 
-    public List<Book> SearchBook() throws SQLException {
+    public List<Book> searchBook() throws SQLException {
         List<Book> books = new ArrayList<>();
         Book book = new Book();
         String query = "SELECT * FROM book WHERE title LIKE CONCAT('%', ?, '%')";
@@ -92,7 +91,7 @@ public class BookDao {
         }
     }
 
-    public void insertBook(Book book) throws SQLException {
+    public void saveBook(Book book) throws SQLException {
         String query = "INSERT INTO book (title, description, date_publication, quantity, isbn, authorID) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, book.getTitle());
@@ -159,6 +158,5 @@ public class BookDao {
         }
         return null;
     }
-
 
 }

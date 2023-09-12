@@ -28,7 +28,7 @@ public class AuthorService {
         }
     }
 
-    public void insertAuthors() throws SQLException {
+    public void saveAuthors() throws SQLException {
         String first_name, last_name, awards;
             do {
                 System.out.println("Insert First Name: ");
@@ -44,6 +44,6 @@ public class AuthorService {
             }while(!Pattern.matches("\\S+", awards));
 
             Author author = new Author(first_name, last_name, awards);
-            authorDao.insertAuthor(author);
+            authorDao.saveAuthor(author);
     }
 }

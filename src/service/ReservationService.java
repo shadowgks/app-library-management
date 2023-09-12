@@ -20,7 +20,7 @@ public class ReservationService {
         this.reservationdao = new ReservationDao(con);
     }
 
-    public void insertReservation() throws SQLException {
+    public void saveReservation() throws SQLException {
             int generateIDR = generateRandomID();
             String isbn, cin;
             int duration = 0;

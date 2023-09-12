@@ -27,7 +27,7 @@ Create Table Book
     quantity         int,
     isbn             varchar(255) unique,
     authorID         INT,
-    FOREIGN KEY (authorID) REFERENCES author (id)
+    FOREIGN KEY (authorID) REFERENCES Author (id)
 );
 
 Create Table Reservation
@@ -39,8 +39,8 @@ Create Table Reservation
     statut     varchar(255),
     bookID     INT,
     clientID   INT,
-    FOREIGN KEY (bookID) REFERENCES book (id),
-    FOREIGN KEY (clientID) REFERENCES client (id)
+    FOREIGN KEY (bookID) REFERENCES Book (id),
+    FOREIGN KEY (clientID) REFERENCES Client (id)
 );
 
 insert into author (first_name, last_name, awards)

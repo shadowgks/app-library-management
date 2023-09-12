@@ -54,7 +54,7 @@ public class AuthorDao {
         return null;
     }
 
-    public void insertAuthor(Author author) throws SQLException {
+    public void saveAuthor(Author author) throws SQLException {
         String query = "INSERT INTO author (first_name, last_name, awards) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, author.getFirstName());

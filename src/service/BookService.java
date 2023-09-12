@@ -29,15 +29,27 @@ public class BookService {
     }
 
     public Book readByIsbnBook(){
+        String isbn, regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
         try {
-            return bookDeo.readByIsbnBook();
+            Book get_book = null;
+            do {
+                System.out.println("Entre the ISBN: ");
+                System.out.println("Ex: 000-0-00-000000-0");
+                isbn = input.nextLine();
+                get_book = bookDeo.readByIsbnBook(isbn);
+                if (get_book == null) {
+                    System.out.println("Faile try again!");
+                }
+            } while (!Pattern.matches(regexISBN, isbn) || get_book == null);
+
+            return get_book;
         }catch (SQLException e){
             e.printStackTrace();
             return null;
         }
     }
 
-    public void insertBook(){
+    public void saveBook(){
         String title, description, date_publication, isbn, firstname_author, lastname_author;
         boolean check_author = false;
         String regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
@@ -91,7 +103,7 @@ public class BookService {
 
                 if (check_author) {
                     bookDeo.checkAuthor(book, firstname_author, lastname_author);
-                    bookDeo.insertBook(book);
+                    bookDeo.saveBook(book);
                 } else {
                     System.out.println("This is author not found!!");
                 }
@@ -105,7 +117,7 @@ public class BookService {
 
     public List<Book> searchBook(){
         try{
-            return bookDeo.SearchBook();
+            return bookDeo.searchBook();
         }catch (SQLException e){
             e.printStackTrace();
             return null;
