@@ -115,9 +115,34 @@ public class BookService {
         }
     }
 
-    public List<Book> searchBook(){
+    public List<Book> searchBook(String nameColumn){
+        String title, firstname_author, lastname_author;
+        List book_by = null;
         try{
-            return bookDeo.searchBook();
+            if(nameColumn == "title"){
+                do {
+                    System.out.println("Entre the title: ");
+                    title = input.nextLine();
+                } while (!Pattern.matches("\\S.*+", title));
+                book_by = bookDeo.searchBook(nameColumn, title, "null", "null");
+                if(book_by.isEmpty()){
+                    System.out.println("This book does not exist!!!");
+                }
+            } else if (nameColumn == "author") {
+                do {
+                    System.out.println("Entre first name author: ");
+                    firstname_author = input.nextLine();
+                } while (!Pattern.matches("\\S+", firstname_author));
+                do {
+                    System.out.println("Entre last name author: ");
+                    lastname_author = input.nextLine();
+                } while (!Pattern.matches("\\S+", lastname_author));
+                book_by = bookDeo.searchBook(nameColumn, "null", firstname_author, lastname_author);
+                if(book_by.isEmpty()){
+                    System.out.println("This book does not exist!!!");
+                }
+            }
+            return book_by;
         }catch (SQLException e){
             e.printStackTrace();
             return null;
@@ -144,7 +169,7 @@ public class BookService {
             do {
                 System.out.println("Entre the title: ");
                 title = input.nextLine();
-            } while (!Pattern.matches("\\S+", title));
+            } while (!Pattern.matches("\\S.*+", title));
             do {
                 System.out.println("Entre the description: ");
                 description = input.nextLine();
@@ -197,7 +222,7 @@ public class BookService {
     public void deleteBook() {
         String isbn, regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";;
         try{
-            Boolean checkbook = 3;
+            Boolean checkbook;
             do {
                 System.out.println("Entre the ISBN: ");
                 System.out.println("Ex: 000-0-00-000000-0");
@@ -214,11 +239,12 @@ public class BookService {
         }
     }
 
-    public void statisticBook() {
+    public String statisticBook() {
         try{
-            bookDeo.statisticBook();
+            return bookDeo.statisticBook();
         }catch (SQLException e){
             e.printStackTrace();
+            return null;
         }
     }
 }

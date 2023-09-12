@@ -35,7 +35,7 @@ public class Main {
         boolean isRunning = true;
 
         while (isRunning) {
-            System.out.println("\n\n\n------------------------------------------");
+            System.out.println("\n\n------------------------------------------");
 
             System.out.println("Choose an action:");
             System.out.println("1. Create New Book");
@@ -44,15 +44,17 @@ public class Main {
             System.out.println("4. Show All Books");
             System.out.println("5. Search Book By Title");
             System.out.println("6. Search Book By Author");
-            System.out.println("7. Borrow  Book");
-            System.out.println("8. return  Book");
+            System.out.println("7. Reserve Book");
+            System.out.println("8. Return  Book");
             System.out.println("9. Generate Statistics");
             System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
 
+
             int choice = scanner.nextInt();
             scanner.nextLine();
 
+            System.out.println("\n\n------------------------\n");
             switch (choice) {
                 case 1:
                     Book read_by_isbn_book = bookS.readByIsbnBook();
@@ -69,19 +71,27 @@ public class Main {
                     System.out.println(show_books);
                     break;
                 case 5:
-
+                    List get_all_book_by_title = bookS.searchBook("title");
+                    System.out.println(get_all_book_by_title);
                     break;
                 case 6:
-
+                    List get_all_book_by_author = bookS.searchBook("author");
+                    System.out.println(get_all_book_by_author);
                     break;
                 case 7:
-
+                    resS.saveReservation();
                     break;
                 case 8:
 
                     break;
                 case 9:
-
+                    String count_books = bookS.statisticBook();
+                    String count_books_borrowed = resS.statisticBookBorrowed();
+                    String count_books_lost = resS.statisticBookLost();
+                    System.out.println("\tSTATISTICS");
+                    System.out.println("Total Books: "+count_books);
+                    System.out.println("Total Books Borrowed: "+count_books_borrowed);
+                    System.out.println("Total Books Lost: "+count_books_lost);
                     break;
                 case 10:
                     System.out.println("Exiting the program.");
@@ -90,9 +100,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-
-
-            System.out.println("------------------------");
+            System.out.println("\n------------------------");
         }
     }
 }

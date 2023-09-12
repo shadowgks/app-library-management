@@ -2,6 +2,7 @@ package dao;
 import domain.entitys.Author;
 import domain.entitys.Book;
 
+import javax.swing.*;
 import java.sql.*;
 
 import java.util.ArrayList;
@@ -70,20 +71,44 @@ public class BookDao {
         return null;
     }
 
-    public List<Book> searchBook() throws SQLException {
+
+    public List<Book> searchBook(String name, String title, String firstname_author, String lastname_author) throws SQLException {
         List<Book> books = new ArrayList<>();
-        Book book = new Book();
-        String query = "SELECT * FROM book WHERE title LIKE CONCAT('%', ?, '%')";
+        String query = "";
+        if(name == "title"){
+            query = "SELECT * FROM \n" +
+                    "book b JOIN author a \n" +
+                    "ON b.authorID = a.id\n" +
+                    "WHERE b.title LIKE CONCAT('%',?,'%')";
+        }else if(name == "author"){
+            query = "SELECT * FROM \n" +
+                    "book b JOIN author a \n" +
+                    "ON b.authorID = a.id\n" +
+                    "WHERE a.first_name LIKE CONCAT('%',?,'%') OR a.first_name LIKE CONCAT('%',?,'%')";
+        }
+
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, book.getTitle());
+            if(name == "title"){
+                preparedStatement.setString(1, title);
+            }else if(name == "author"){
+                preparedStatement.setString(1, firstname_author);
+                preparedStatement.setString(2, lastname_author);
+            }
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    Book book = new Book();
                     book.setTitle(resultSet.getString("title"));
                     book.setDescription(resultSet.getString("description"));
                     book.setDatePublication(resultSet.getDate("date_publication"));
                     book.setQuantity(resultSet.getInt("quantity"));
                     book.setIsbn(resultSet.getString("isbn"));
 
+                    Author author = new Author();
+                    author.setFirstName(resultSet.getString("first_name"));
+                    author.setLastName(resultSet.getString("last_name"));
+                    author.setAwards(resultSet.getString("awards"));
+
+                    book.setAuthor(author);
                     books.add(book);
                 }
             }
