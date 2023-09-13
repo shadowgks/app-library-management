@@ -21,19 +21,32 @@ public class BookService {
         this.bookDeo = new BookDao(con);
     }
 
-    public List<Book> readAllBook(){
+    public void readAllBook(){
+        int index = 1;
         try {
-            return bookDeo.readAllBook();
+            List<Book> books = bookDeo.readAllBook();
+            for (Book item : books){
+                System.out.println("Book: " +index);
+                System.out.println("Title: " + item.getTitle());
+                System.out.println("Description: " + item.getDescription());
+                System.out.println("Date-Publication: " + item.getDatePublication());
+                System.out.println("Quantity: " + item.getQuantity());
+                System.out.println("ISBN: " + item.getIsbn());
+                System.out.println("Name Author: " + item.getAuthor().getFirstName() + " " + item.getAuthor().getLastName());
+                System.out.println("Awards: " + item.getAuthor().getAwards());
+                System.out.println("---------------------");
+                index++;
+            }
         }catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
     }
 
-    public Book readByIsbnBook(){
+    public void readByIsbnBook(){
         String isbn, regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
+        Book get_book;
+
         try {
-            Book get_book = null;
             do {
                 System.out.println("Entre the ISBN: ");
                 System.out.println("Ex: 000-0-00-000000-0");
@@ -44,10 +57,16 @@ public class BookService {
                 }
             } while (!Pattern.matches(regexISBN, isbn) || get_book == null);
 
-            return get_book;
+            System.out.println("\nTitle: " + get_book.getTitle());
+            System.out.println("Description: " + get_book.getDescription());
+            System.out.println("Date-Publication: " + get_book.getDatePublication());
+            System.out.println("Quantity: " + get_book.getQuantity());
+            System.out.println("ISBN: " + get_book.getIsbn());
+            System.out.println("Name Author: " + get_book.getAuthor().getFirstName() + " " + get_book.getAuthor().getLastName());
+            System.out.println("Awards: " + get_book.getAuthor().getAwards());
+
         }catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
     }
 
@@ -89,6 +108,7 @@ public class BookService {
                     quantity = 0; //Reset duration to an invalid value
                 }
             } while (quantity <= 0);
+            input.nextLine();
 
             //author
             while(!check_author){
@@ -194,6 +214,7 @@ public class BookService {
                     quantity = 0; //Reset duration to an invalid value
                 }
             } while (quantity <= 0);
+            input.nextLine();
 
             //author
             while (!check_author) {
@@ -224,7 +245,7 @@ public class BookService {
 
     public void deleteBook() {
         String isbn, regexISBN = "\\d{3}-\\d{1}-\\d{2}-\\d{6}-\\d{1}";
-        boolean check_book_if_borrowed, check_book = false;
+        boolean check_book_if_borrowed = false, check_book = false;
         try{
             do {
                 System.out.println("Entre the ISBN: ");
@@ -233,16 +254,17 @@ public class BookService {
 
                 check_book_if_borrowed = bookDeo.checkBookIfBorrowed(isbn);
 
-                if(!check_book_if_borrowed){
-                    check_book = bookDeo.deleteBook(isbn);
-                    if (!check_book) {
-                        System.out.println("This book does not exist try again!!!");
-                    }else{
-                        System.out.println("A successfully deleted book");
-                    }
-                }else{
+                if(check_book_if_borrowed){
                     bookDeo.updateBookIfBorrowed(isbn);
                     if (check_book) {
+                        System.out.println("This book does not exist try again!!!");
+                    }else{
+                        System.out.println("This book will not be removed because it is reserved!\n" +
+                                "The value of the quantity was restored to 0");
+                    }
+                }else{
+                    check_book = bookDeo.deleteBook(isbn);
+                    if (!check_book) {
                         System.out.println("This book does not exist try again!!!");
                     }else{
                         System.out.println("A successfully deleted book");

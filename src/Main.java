@@ -12,7 +12,7 @@ import java.util.Scanner;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Connection con = DBConnection.getConnection();
         if (con == null) {
             System.out.println("not working");
@@ -43,12 +43,13 @@ public class Main {
             System.out.println("3. Create New Book");
             System.out.println("4. Edit a Book");
             System.out.println("5. Delete a Book");
-            System.out.println("6. Search Book By Title");
-            System.out.println("7. Search Book By Author");
-            System.out.println("8. Reserve Book");
-            System.out.println("9. Return  Book");
-            System.out.println("10. Generate Statistics");
-            System.out.println("11. Exit");
+            System.out.println("6. Create New Author");
+            System.out.println("7. Search Book By Title");
+            System.out.println("8. Search Book By Author");
+            System.out.println("9. Reserve Book");
+            System.out.println("10. Return  Book");
+            System.out.println("11. Generate Statistics");
+            System.out.println("12. Exit");
             System.out.print("Enter your choice: ");
 
 
@@ -58,12 +59,10 @@ public class Main {
             System.out.println("\n\n------------------------\n");
             switch (choice) {
                 case 1:
-                    List show_books = bookS.readAllBook();
-                    System.out.println(show_books);
+                    bookS.readAllBook();
                     break;
                 case 2:
-                    Book read_by_isbn_book = bookS.readByIsbnBook();
-                    System.out.println(read_by_isbn_book);
+                    bookS.readByIsbnBook();
                     break;
                 case 3:
                     bookS.saveBook();
@@ -75,20 +74,23 @@ public class Main {
                     bookS.deleteBook();
                     break;
                 case 6:
+                    authorS.saveAuthors();
+                    break;
+                case 7:
                     List get_all_book_by_title = bookS.searchBook("title");
                     System.out.println(get_all_book_by_title);
                     break;
-                case 7:
+                case 8:
                     List get_all_book_by_author = bookS.searchBook("author");
                     System.out.println(get_all_book_by_author);
                     break;
-                case 8:
+                case 9:
                     resS.saveReservation();
                     break;
-                case 9:
+                case 10:
                     resS.updateReservationToReturned();
                     break;
-                case 10:
+                case 11:
                     String count_books = bookS.statisticBook();
                     String count_books_borrowed = resS.statisticBookBorrowed();
                     String count_books_lost = resS.statisticBookLost();
@@ -97,7 +99,7 @@ public class Main {
                     System.out.println("Total Books Borrowed: "+count_books_borrowed);
                     System.out.println("Total Books Lost: "+count_books_lost);
                     break;
-                case 11:
+                case 12:
                     System.out.println("Exiting the program.");
                     isRunning = false;
                     break;
