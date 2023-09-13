@@ -6,6 +6,7 @@ import utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -54,17 +55,18 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    Book readByIsbnBook = bookS.readByIsbnBook();
-                    System.out.println(readByIsbnBook);
+                    Book read_by_isbn_book = bookS.readByIsbnBook();
+                    System.out.println(read_by_isbn_book);
                     break;
                 case 2:
-
+                    bookS.updateBook();
                     break;
                 case 3:
-
+                    bookS.deleteBook();
                     break;
                 case 4:
-
+                    List show_books = bookS.readAllBook();
+                    System.out.println(show_books);
                     break;
                 case 5:
 

@@ -45,12 +45,12 @@ public class BookDao {
 
     public Book readByIsbnBook(String isbn) throws SQLException {
         String query = "SELECT * FROM book b INNER JOIN author a ON b.authorID = a.id WHERE b.isbn = ?";
-        Book book = new Book();
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, isbn);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     //book
+                    Book book = new Book();
                     book.setTitle(resultSet.getString("title"));
                     book.setDescription(resultSet.getString("description"));
                     book.setDatePublication(resultSet.getDate("date_publication"));
@@ -105,27 +105,30 @@ public class BookDao {
         }
     }
 
-    public void updateBook(Book book) throws SQLException {
-        String query = "UPDATE book SET title= ?, description= ?, date_publication= ?, quantity= ?, isbn= ?, authorID= ? WHERE id = ?";
+    public void updateBook(Book book, String isbn) throws SQLException {
+        String query = "UPDATE book SET title= ?, description= ?, date_publication= ?, quantity= ?, authorID= ? WHERE isbn = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, "title2");
-            preparedStatement.setString(2, "descriptio2");
-            preparedStatement.setDate(3, java.sql.Date.valueOf("2013-09-04"));
-            preparedStatement.setInt(4, 50);
-            preparedStatement.setString(5, "isbn2");
-            preparedStatement.setInt(6, 2);
-            preparedStatement.setInt(7, 1);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getDescription());
+            preparedStatement.setDate(3, (Date) book.getDatePublication());
+            preparedStatement.setInt(4, book.getQuantity());
+            preparedStatement.setInt(5, book.getAuthor().getId());
+            preparedStatement.setString(6, isbn);
 
             preparedStatement.executeUpdate();
         }
     }
 
-    public void deleteBook(int isbn) throws SQLException {
+    public Boolean deleteBook(String isbn) throws SQLException {
         String query = "DELETE FROM book WHERE isbn = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setInt(1, isbn);
+            preparedStatement.setString(1, isbn);
 
-            preparedStatement.executeUpdate();
+            if(preparedStatement.executeUpdate() > 0){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 
